@@ -1,0 +1,18 @@
+---
+apiVersion: carto.run/v1alpha1
+kind: ClusterSupplyChain
+metadata:
+  name: image-to-deployment
+spec:
+  resources:
+    - name: deploy
+      templateRef:
+        kind: ClusterTemplate
+        name: create-deployment
+
+  serviceAccountRef:
+    name: cartographer-pre-built-sa
+    namespace: default
+
+  selector:
+    workload-type: pre-built

@@ -1,0 +1,33 @@
+# This template deploys the app as a Kubernetes Deployment
+# Needs following
+# - workload.metadata.name
+# - workload.spec.image
+
+apiVersion: carto.run/v1alpha1
+kind: ClusterTemplate
+metadata:
+  name: create-deployment
+spec:
+  template:
+    apiVersion: apps/v1
+    kind: Deployment
+    metadata:
+      name: $(workload.metadata.name)$-deployment
+      labels:
+        app: $(workload.metadata.name)$
+    spec:
+      replicas: $(params.replicas)$
+      selector:
+        matchLabels:
+          app: $(workload.metadata.name)$
+      template:
+        metadata:
+          labels:
+            app: $(workload.metadata.name)$
+        spec:
+          containers:
+            - name: $(workload.metadata.name)$
+              image: $(workload.spec.image)$
+  params:
+    - name: replicas
+      default: 2
